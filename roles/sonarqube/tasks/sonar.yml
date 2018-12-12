@@ -1,0 +1,42 @@
+---
+
+- name: Create SonarQube Directory
+  file:
+    path: '{{ item }}'
+    state: directory
+    mode: 777
+  with_items:
+    - /etc/sonarqube
+  become: true
+
+- name: Copy from Temp Files to correct location
+  copy:
+    src: sonarqube-6.5/
+    dest: /etc/sonarqube/
+    directory_mode: yes
+    mode: 0655
+    force: no
+  become: true
+
+- name: Template the correct properties file
+  template:
+    src: sonar.properties.j2
+    dest: /etc/sonarqube/conf/sonar.properties
+    owner: root
+    group: wheel
+    mode: 0644
+  become: true
+
+- name: copy service
+  copy:
+    src: sonar.service
+    dest: /etc/systemd/system/sonar.service
+  become: true
+
+
+- name: Start and Enable Sonar Service
+  service:
+    name: sonar
+    state: started
+    enabled: yes
+  become: true

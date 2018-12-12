@@ -1,0 +1,7 @@
+---
+ - name: install apache2
+   yum: 
+     name: apache2 
+     update_cache: yes 
+     state: latest
+   become: true

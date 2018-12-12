@@ -1,0 +1,7 @@
+---
+- include: apache.yml
+- include: install_java.yml
+- include: install_psql.yml
+- include: configure_psql.yml
+- include: sonar.yml
+- include: httpd.yml
